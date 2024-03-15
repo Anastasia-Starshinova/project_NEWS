@@ -70,8 +70,6 @@ class Author(models.Model):
         return author_name
 
 
-
-
 class Category(models.Model):
     news_category = models.CharField(default='...', max_length=255, unique=True)
 

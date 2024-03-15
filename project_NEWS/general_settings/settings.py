@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-zq=g5%5b2*d2x2p*@$jalne=v2i8$&_vsis2+*$iczgq*wf#i1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'news',
 
-    # подключаем ещё приложения
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django_filters',
+
+    'sign',
+    'protect',
 ]
 
 SITE_ID = 1
@@ -93,17 +96,6 @@ DATABASES = {
     }
 }
 
-# ещё вариант подключения
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'News Portal',
-#         'AbstractUser': 'postgres',
-#         'PASSWORD': '2802',
-#         'HOST': '::1',
-#         'PORT': '5432',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -146,3 +138,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'news.User'
+
+LOGIN_URL = '/sign/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/sign/login/'
+# LOGOUT_REDIRECT_URL = '/sign/logout/'
+# LOGIN_REDIRECT_URL = '/main/news'

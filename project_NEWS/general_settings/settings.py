@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.yandex',
+    'appointments'
 ]
 
 SITE_ID = 1
@@ -164,3 +165,16 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почты для всех один и тот же
+EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
+EMAIL_HOST_USER = 'starschinowa.anastasia'  # ваше имя пользователя, например, если ваша почта AbstractUser@yandex.ru, то сюда надо писать AbstractUser, иными словами, это всё то что идёт до собаки
+EMAIL_HOST_PASSWORD = '03160316Aa'  # пароль от почты
+EMAIL_USE_SSL = True  # Яндекс использует ssl, подробнее о том, что это, почитайте в дополнительных источниках, но включать его здесь обязательно
+
+ADMINS = [
+    ('Nasty', 'starschinowa.ana@gmail.com'),
+    # список всех админов в формате ('имя', 'их почта')
+    ('Ilia', 'stardust1000@yandex.ru')
+]
+SERVER_EMAIL = 'starschinowa.anastasia@yandex.ru'  # это будет у нас вместо аргумента FROM в массовой рассылке

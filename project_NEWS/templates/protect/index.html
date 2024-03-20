@@ -4,5 +4,13 @@
 <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
 <div> Здесь может содержаться персональная информация для каждого пользователя </div>
 
-<button> <a href="sign/logout/">Выйти</a> </button>
+{% if is_not_authors %}
+<button> <a href="sign/upgrade/"> Хочу стать автором!</a> </button>
+{% endif %}
+
+<!--<button> <a href="sign/logout/">Выйти</a> </button>-->
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">выйти</button>
+</form>
 {% endblock %}

@@ -46,6 +46,11 @@ INSTALLED_APPS = [
 
     'sign',
     'protect',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.yandex',
 ]
 
 SITE_ID = 1
@@ -60,6 +65,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 
 ]
 
@@ -74,8 +80,8 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.debug',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -139,8 +145,22 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'news.User'
 
-LOGIN_URL = '/sign/login/'
+LOGIN_URL = '/accounts/login/'
+# LOGIN_URL = '/sign/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/sign/login/'
-# LOGOUT_REDIRECT_URL = '/sign/logout/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+# LOGOUT_REDIRECT_URL = '/sign/login/'
+# LOGOUT_REDIRECT_URL = 'sign/logout/'
 # LOGIN_REDIRECT_URL = '/main/news'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+ACCOUNT_FORMS = {'signup': 'sign.models.CommonSignupForm'}
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'

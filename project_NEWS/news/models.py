@@ -14,12 +14,26 @@ POSITIONS = [
 ]
 
 
+class Category(models.Model):
+    news_category = models.CharField(default='...', max_length=255, unique=True)
+
+    def __str__(self):
+        return self.news_category
+
+
 class User(AbstractUser):
     pass
     # add additional fields in here
 
     def __str__(self):
         return self.username
+
+    subscriptions = models.ManyToManyField(Category, through='SubscriptionsCategory')
+
+
+class SubscriptionsCategory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
 
 
 class Author(models.Model):
@@ -68,13 +82,6 @@ class Author(models.Model):
     def __str__(self):
         author_name = self.user.username
         return author_name
-
-
-class Category(models.Model):
-    news_category = models.CharField(default='...', max_length=255, unique=True)
-
-    def __str__(self):
-        return self.news_category
 
 
 class Post(models.Model):

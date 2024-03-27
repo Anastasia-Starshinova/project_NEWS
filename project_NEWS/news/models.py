@@ -22,13 +22,10 @@ class Category(models.Model):
 
 
 class User(AbstractUser):
-    pass
-    # add additional fields in here
+    subscriptions = models.ManyToManyField(Category, through='SubscriptionsCategory')
 
     def __str__(self):
         return self.username
-
-    subscriptions = models.ManyToManyField(Category, through='SubscriptionsCategory')
 
 
 class SubscriptionsCategory(models.Model):
@@ -152,6 +149,10 @@ class Post(models.Model):
 class PostCategory(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        category_name = self.category
+        return category_name
 
 
 class Comment(models.Model):

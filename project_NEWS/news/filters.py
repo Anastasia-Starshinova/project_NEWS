@@ -8,10 +8,13 @@ class PostFilter(FilterSet):
                                  label='категории')
                                  # empty_label='любая категория')
 
-    author = ModelMultipleChoiceFilter(field_name='author__user',
-                                         queryset=User.objects.all(),
+    author = ModelMultipleChoiceFilter(field_name='author',
+                                         queryset=Author.objects.all(),
                                          label='автор')
 
+    # author = ModelMultipleChoiceFilter(field_name='author__user',
+    #                                    queryset=User.objects.all(),
+    #                                    label='автор')
     # ещё вариант как сделать, чтобы все названия выпадали и можно было выбрать
     # title = ModelMultipleChoiceFilter(field_name='title',
     #                              queryset=Post.objects.all(),

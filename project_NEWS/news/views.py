@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from datetime import datetime
-from .models import Post
+from .models import Post, User
 from .filters import PostFilter
 from .forms import PostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 
 
 class NewsList(ListView, PermissionRequiredMixin):
@@ -14,7 +18,7 @@ class NewsList(ListView, PermissionRequiredMixin):
     ordering = '-date_time_creation_post'
     template_name = 'news.html'
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -65,7 +69,7 @@ class ArticlesList(ListView, PermissionRequiredMixin):
     ordering = '-date_time_creation_post'
     template_name = 'articles.html'
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 3
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -145,3 +149,28 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+
+@login_required
+def subscribe(request):
+    user = request.user
+
+    # post = найти актуальный пост
+    # actual_category = получить категорию поста
+    # user.subscriptions.add(actual_category) добавить категорию и юзера в базу данных
+    send_mail(
+        subject='Вы подписались на категорию: ',
+        # имя клиента и дата записи будут в теме для удобства
+        message='Вы подписались на категорию: ',  # сообщение с кратким описанием проблемы
+        from_email='starschinowa.anastasia@yandex.ru',  # здесь указываете почту, с которой будете отправлять (об этом попозже)
+        recipient_list=[user.email, ]  # здесь список получателей. Например, секретарь, сам врач и т. д.
+    )
+
+    return redirect('/main/subscribe/notification')
+
+
+class NotificationList(ListView):
+    form_class = PostForm
+    model = Post
+    template_name = 'subscription_notification.html'
+    # context_object_name = 'posts'

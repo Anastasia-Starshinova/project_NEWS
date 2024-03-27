@@ -17,4 +17,13 @@ Post
 <br/>
 
 <h3>Автор: {{ post.author }}</h3>
+{% for category in post.categories.all %}
+<h3>Категория: {{ category.news_category }}</h3>
+{% endfor %}
+
+
+
+<button> <a href="/main/subscribe/"> Подписаться на категорию!</a> </button>
+
 {% endblock content %}
+

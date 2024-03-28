@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
-from .models import Post, User
+from .models import Post, User, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
@@ -152,25 +152,25 @@ class PostDetail(DetailView):
 
 
 @login_required
-def subscribe(request):
+def subscribe(request, pk):
     user = request.user
-
-    # post = найти актуальный пост
-    # actual_category = получить категорию поста
-    # user.subscriptions.add(actual_category) добавить категорию и юзера в базу данных
+    category = Category.objects.get(pk=pk)
+    user.subscriptions.add(category)
+    context = {'category': category}
     send_mail(
-        subject='Вы подписались на категорию: ',
+        subject=f'{user.username}, вы подписались на категорию: {category}',
         # имя клиента и дата записи будут в теме для удобства
         message='Вы подписались на категорию: ',  # сообщение с кратким описанием проблемы
         from_email='starschinowa.anastasia@yandex.ru',  # здесь указываете почту, с которой будете отправлять (об этом попозже)
         recipient_list=[user.email, ]  # здесь список получателей. Например, секретарь, сам врач и т. д.
     )
 
-    return redirect('/main/subscribe/notification')
+    # return redirect('/main/subscribe/notification')
+    return render(request, 'subscription_notification.html', context=context)
 
 
-class NotificationList(ListView):
-    form_class = PostForm
-    model = Post
-    template_name = 'subscription_notification.html'
-    # context_object_name = 'posts'
+# class NotificationList(ListView):
+#     form_class = PostForm
+#     model = Post
+#     template_name = 'subscription_notification.html'
+#     # context_object_name = 'posts'

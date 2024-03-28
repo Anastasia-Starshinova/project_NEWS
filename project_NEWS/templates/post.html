@@ -13,8 +13,7 @@ Post
 <h3> дата создания — {{ post.date_time_creation_post|date:'j F, Y' }}</h3>
 <p>{{ post.text|censor }}</p>
 <br/>
-<br/>
-<br/>
+
 
 <h3>Автор: {{ post.author }}</h3>
 {% for category in post.categories.all %}
@@ -23,7 +22,8 @@ Post
 
 
 
-<button> <a href="/main/subscribe/"> Подписаться на категорию!</a> </button>
+<button> <a href="/main/subscribe/<int:pk>/"> Подписаться на категорию!</a> </button>
+
 
 {% endblock content %}
 
